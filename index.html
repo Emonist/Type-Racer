@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom OCR Solver | Next-Gen Image Recognition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #080810;
+            --card-bg: rgba(18, 18, 32, 0.65);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-glow: #7928CA;
+            --secondary-glow: #FF0080;
+            --accent-cyan: #00DFD8;
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-1 {
+            top: -150px;
+            left: -100px;
+            background: radial-gradient(circle, var(--primary-glow), transparent);
+        }
+
+        .glow-2 {
+            bottom: -150px;
+            right: -100px;
+            background: radial-gradient(circle, var(--secondary-glow), transparent);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 4rem;
+            backdrop-filter: blur(16px);
+            background: rgba(8, 8, 16, 0.7);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #FFF 30%, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FFF;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(0, 223, 216, 0.08);
+            border: 1px solid rgba(0, 223, 216, 0.3);
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 223, 216, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(0, 223, 216, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 223, 216, 0); }
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 7rem 2rem 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            padding: 6px 18px;
+            border-radius: 30px;
+            background: linear-gradient(90deg, rgba(121, 40, 202, 0.2), rgba(255, 0, 128, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #E5E7EB;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            max-width: 850px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 620px;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .btn-primary {
+            padding: 14px 32px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            color: #FFF;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 8px 30px rgba(121, 40, 202, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255, 0, 128, 0.5);
+        }
+
+        .btn-secondary {
+            padding: 14px 32px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-weight: 600;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(121, 40, 202, 0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(121, 40, 202, 0.15);
+            border: 1px solid rgba(121, 40, 202, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .code-container {
+            max-width: 900px;
+            margin: 4rem auto 6rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .code-block {
+            background: #0B0B14;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background-color: #FF5F56; }
+        .dot-yellow { background-color: #FFBD2E; }
+        .dot-green { background-color: #27C93F; }
+
+        .code-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        pre {
+            padding: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #A9B7C6;
+            overflow-x: auto;
+            line-height: 1.7;
+        }
+
+        .keyword { color: #CC7832; font-weight: bold; }
+        .string { color: #6A8759; }
+        .function { color: #FFC66D; }
+        .number { color: #6897BB; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-dot"></div>
+            PHANTOM OCR
+        </div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#speed">Benchmark</a></li>
+        </ul>
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            API Operational
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-tag">High Precision Neural solver</div>
+        <h1 class="hero-title">Ultra-Fast Image Recognition <span>Discord Engine</span></h1>
+        <p class="hero-desc">Seamlessly process, solve, and analyze embedded image streams in real-time with sub-millisecond response latency and high recognition accuracy.</p>
+        <div class="btn-group">
+            <button class="btn-primary">Get Access</button>
+            <button class="btn-secondary">View Documentation</button>
+        </div>
+    </section>
+
+    <section class="features-grid" id="features">
+        <div class="card">
+            <div class="card-icon">⚡</div>
+            <h3 class="card-title">Real-Time Async OCR</h3>
+            <p class="card-desc">Powered by modern aiohttp async dispatching, ensuring your bot never freezes or blocks the gateway event loop.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🎯</div>
+            <h3 class="card-title">High Accuracy Neural Network</h3>
+            <p class="card-desc">Advanced optical character recognition optimized specifically for complex embedded text formats and image challenges.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🛡️</div>
+            <h3 class="card-title">Modular Cog Architecture</h3>
+            <p class="card-desc">Built with discord.py v2.0 standards, modularized clean code design, ready to load dynamically into any bot instance.</p>
+        </div>
+    </section>
+
+    <div class="code-container" id="architecture">
+        <div class="code-block">
+            <div class="code-header">
+                <div class="window-dots">
+                    <div class="dot dot-red"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                </div>
+                <div class="code-title">ocr_cog.py</div>
+            </div>
+            <pre><code><span class="keyword">import</span> time
+<span class="keyword">import</span> aiohttp
+<span class="keyword">import</span> discord
+<span class="keyword">from</span> discord.ext <span class="keyword">import</span> commands
+
+<span class="keyword">class</span> <span class="function">OcrSolver</span>(commands.Cog):
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, bot):
+        self.bot = bot
+        self.api_url = <span class="string">'https://Ocr-api.phantomxnovaxd.repl.co/api/v1/solver'</span>
+        self.target_author_id = <span class="number">825617171589759006</span></code></pre>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Phantom OCR Network. All rights reserved. Encrypted & Protected Interface.
+    </footer>
+
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's')) {
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
