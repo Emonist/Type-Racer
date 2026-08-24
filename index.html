@@ -574,7 +574,7 @@
                 <div class="lane-wrapper">
                     <div class="lane-label">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--neon-purple)"><circle cx="12" cy="12" r="10"/></svg>
-                        OM BOT
+                        BOT
                     </div>
                     <div class="lane">
                         <svg class="racer-icon racer-icon-bot" id="bot-racer" viewBox="0 0 100 40">
@@ -784,7 +784,7 @@
             const finalWpm = Math.round(((activeText.length / 5) / (totalTime / 60)));
             const finalAcc = Math.max(0, Math.round(((totalStrokes - errCount) / totalStrokes) * 100));
 
-            document.getElementById('winner-status').innerText = isUserVictor ? "VICTORY: YOU DEFEATED OM BOT!" : "DEFEAT: OM BOT PLACED FIRST";
+            document.getElementById('winner-status').innerText = isUserVictor ? "VICTORY: YOU DEFEATED BOT!" : "DEFEAT: BOT PLACED FIRST";
             document.getElementById('res-wpm').innerText = finalWpm;
             document.getElementById('res-acc').innerText = finalAcc + "%";
             document.getElementById('res-time').innerText = totalTime + "s";
