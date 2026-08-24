@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phantom TypeRacer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Irenic TypeRacer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #05060A;
-            --card-bg: rgba(13, 15, 24, 0.8);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --neon-green: #00FF87;
-            --neon-blue: #60EFFF;
-            --neon-purple: #7928CA;
+            --bg-dark: #030407;
+            --card-bg: rgba(10, 12, 20, 0.75);
+            --border-glow: rgba(0, 255, 163, 0.25);
+            --border-purple: rgba(121, 40, 202, 0.3);
+            --neon-green: #00FFA3;
+            --neon-cyan: #00E5FF;
+            --neon-purple: #9D4EDD;
             --neon-red: #FF0055;
-            --text-main: #F3F4F6;
-            --text-muted: #9CA3AF;
+            --text-bright: #FFFFFF;
+            --text-dim: #8A92A6;
         }
 
         * {
@@ -31,7 +32,7 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-dark);
-            color: var(--text-main);
+            color: var(--text-bright);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -39,26 +40,40 @@
             position: relative;
         }
 
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .bg-glow {
             position: fixed;
-            width: 700px;
-            height: 700px;
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
-            filter: blur(160px);
+            filter: blur(140px);
             opacity: 0.25;
             pointer-events: none;
             z-index: 0;
         }
 
         .glow-1 {
-            top: -200px;
-            left: -150px;
+            top: -150px;
+            left: -100px;
             background: radial-gradient(circle, var(--neon-green), transparent);
         }
 
         .glow-2 {
-            bottom: -200px;
-            right: -150px;
+            bottom: -150px;
+            right: -100px;
             background: radial-gradient(circle, var(--neon-purple), transparent);
         }
 
@@ -66,231 +81,302 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 3rem;
-            backdrop-filter: blur(16px);
-            background: rgba(5, 6, 10, 0.85);
-            border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 4rem;
+            backdrop-filter: blur(20px);
+            background: rgba(3, 4, 7, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             position: relative;
             z-index: 10;
         }
 
         .logo {
-            font-size: 1.4rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #FFF 20%, var(--neon-green));
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, #FFF 30%, var(--neon-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .logo-badge {
+        .logo-tag {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.65rem;
             padding: 3px 8px;
-            border-radius: 6px;
-            background: rgba(0, 255, 135, 0.15);
+            border-radius: 4px;
+            background: rgba(0, 255, 163, 0.12);
             border: 1px solid var(--neon-green);
             color: var(--neon-green);
-            font-weight: 700;
+            letter-spacing: 1px;
         }
 
-        .top-stats {
+        .hud-stats {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             align-items: center;
         }
 
-        .stat-pill {
+        .hud-pill {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
+            gap: 10px;
+            padding: 8px 18px;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .stat-val {
-            font-weight: 700;
+        .hud-pill svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--neon-green);
+        }
+
+        .hud-val {
+            font-weight: 800;
             color: var(--neon-green);
         }
 
-        .game-container {
-            max-width: 1000px;
+        .arena-container {
+            max-width: 1050px;
             width: 100%;
-            margin: 2.5rem auto;
+            margin: 3rem auto;
             padding: 0 1.5rem;
             position: relative;
             z-index: 1;
             flex: 1;
         }
 
-        .race-track-card {
+        .arena-card {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
-            margin-bottom: 2rem;
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .track-header {
+        .arena-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-green), var(--neon-cyan), transparent);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .arena-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .track-title {
+        .arena-title {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
+            letter-spacing: 1px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            color: var(--text-bright);
+        }
+
+        .arena-title svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--neon-green);
+        }
+
+        .track-sector {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .lane-wrapper {
+            position: relative;
+        }
+
+        .lane-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .lane {
             position: relative;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            height: 54px;
-            margin-bottom: 1rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            height: 52px;
             display: flex;
             align-items: center;
             padding: 0 1rem;
             overflow: hidden;
         }
 
-        .car {
+        .racer-icon {
             position: absolute;
             left: 10px;
-            font-size: 1.8rem;
-            transition: left 0.15s ease-out;
+            width: 42px;
+            height: 26px;
+            transition: left 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
             z-index: 2;
-            filter: drop-shadow(0 0 8px var(--neon-green));
+            filter: drop-shadow(0 0 10px var(--neon-green));
         }
 
-        .car-ai {
-            filter: drop-shadow(0 0 8px var(--neon-blue));
+        .racer-icon-bot {
+            filter: drop-shadow(0 0 10px var(--neon-purple));
         }
 
-        .finish-line {
+        .finish-gate {
             position: absolute;
             right: 20px;
             top: 0;
             bottom: 0;
-            width: 8px;
-            background: repeating-linear-gradient(0deg, #FFF, #FFF 6px, #000 6px, #000 12px);
-            opacity: 0.7;
+            width: 4px;
+            background: var(--neon-green);
+            box-shadow: 0 0 12px var(--neon-green);
         }
 
-        .text-display-box {
-            background: #080A10;
-            border: 1px solid var(--border-color);
+        .passage-box {
+            background: rgba(5, 7, 12, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             padding: 2rem;
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.25rem;
             line-height: 1.8;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
             min-height: 140px;
             position: relative;
+            letter-spacing: 0.5px;
         }
 
-        .char-correct {
+        .c-correct {
             color: var(--neon-green);
-            background: rgba(0, 255, 135, 0.1);
+            background: rgba(0, 255, 163, 0.12);
+            border-radius: 2px;
         }
 
-        .char-wrong {
+        .c-wrong {
             color: var(--neon-red);
             background: rgba(255, 0, 85, 0.25);
+            border-radius: 2px;
             text-decoration: underline;
         }
 
-        .char-current {
-            border-left: 2px solid var(--neon-blue);
-            background: rgba(96, 239, 255, 0.2);
-            animation: pulse-cursor 0.7s infinite;
+        .c-current {
+            border-left: 3px solid var(--neon-cyan);
+            background: rgba(0, 229, 255, 0.2);
+            animation: pulse-cursor 0.6s infinite alternate;
         }
 
         @keyframes pulse-cursor {
-            50% { border-color: transparent; }
+            0% { border-color: var(--neon-cyan); }
+            100% { border-color: transparent; }
         }
 
-        .input-box {
+        .input-cyber {
             width: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
             border-radius: 14px;
-            padding: 1.2rem 1.5rem;
-            color: #FFF;
+            padding: 1.2rem 1.6rem;
+            color: var(--text-bright);
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.15rem;
             outline: none;
             transition: all 0.3s ease;
         }
 
-        .input-box:focus {
+        .input-cyber:focus {
             border-color: var(--neon-green);
-            box-shadow: 0 0 20px rgba(0, 255, 135, 0.2);
+            box-shadow: 0 0 25px rgba(0, 255, 163, 0.25);
         }
 
-        .controls-bar {
+        .actions-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1.5rem;
+            margin-top: 1.8rem;
         }
 
-        .btn {
+        .btn-cyber {
             padding: 14px 28px;
             border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
             font-weight: 700;
+            letter-spacing: 1px;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
+            gap: 10px;
         }
 
-        .btn-restart {
-            background: linear-gradient(135deg, var(--neon-green), #00B862);
-            color: #05060A;
-            box-shadow: 0 6px 20px rgba(0, 255, 135, 0.3);
+        .btn-cyber svg {
+            width: 18px;
+            height: 18px;
         }
 
-        .btn-restart:hover {
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-green), #00B873);
+            color: #030407;
+            box-shadow: 0 6px 20px rgba(0, 255, 163, 0.3);
+        }
+
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 255, 135, 0.45);
+            box-shadow: 0 10px 30px rgba(0, 255, 163, 0.5);
         }
 
-        .btn-auto {
-            background: rgba(121, 40, 202, 0.2);
+        .btn-secondary {
+            background: rgba(157, 78, 221, 0.15);
             border: 1px solid var(--neon-purple);
-            color: #E5E7EB;
+            color: var(--text-bright);
         }
 
-        .btn-auto:hover {
-            background: rgba(121, 40, 202, 0.4);
+        .btn-secondary:hover {
+            background: rgba(157, 78, 221, 0.35);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
         }
 
-        .modal-overlay {
+        .modal-blur {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(5, 6, 10, 0.85);
-            backdrop-filter: blur(16px);
+            background: rgba(3, 4, 7, 0.9);
+            backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -300,46 +386,49 @@
             transition: opacity 0.4s ease;
         }
 
-        .modal-overlay.active {
+        .modal-blur.active {
             opacity: 1;
             pointer-events: all;
         }
 
-        .results-card {
+        .modal-card {
             background: var(--card-bg);
             border: 1px solid var(--neon-green);
             border-radius: 24px;
             padding: 3rem;
             text-align: center;
-            max-width: 480px;
+            max-width: 500px;
             width: 90%;
-            box-shadow: 0 0 50px rgba(0, 255, 135, 0.25);
+            box-shadow: 0 0 60px rgba(0, 255, 163, 0.3);
         }
 
-        .results-title {
-            font-size: 2.2rem;
-            font-weight: 800;
+        .modal-head {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #FFF, var(--neon-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .results-sub {
-            color: var(--text-muted);
+        .modal-sub {
+            color: var(--text-dim);
             margin-bottom: 2rem;
+            font-size: 0.95rem;
         }
 
         .results-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.2rem;
         }
 
         .result-box {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             padding: 1.2rem;
         }
@@ -353,17 +442,19 @@
 
         .result-lbl {
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: var(--text-dim);
             text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
         }
 
         footer {
             text-align: center;
             padding: 1.5rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-dim);
             font-size: 0.85rem;
-            background: rgba(5, 6, 10, 0.9);
+            background: rgba(3, 4, 7, 0.95);
             position: relative;
             z-index: 10;
         }
@@ -371,252 +462,302 @@
 </head>
 <body>
 
+    <div class="cyber-grid"></div>
     <div class="bg-glow glow-1"></div>
     <div class="bg-glow glow-2"></div>
 
     <nav class="navbar">
         <div class="logo">
-            <div class="logo-badge">LIVE</div>
-            PHANTOM TYPERACER
+            <div class="logo-tag">V2.4</div>
+            PHANTOM RACER
         </div>
-        <div class="top-stats">
-            <div class="stat-pill">⚡ WPM: <span class="stat-val" id="live-wpm">0</span></div>
-            <div class="stat-pill">🎯 ACCURACY: <span class="stat-val" id="live-acc">100%</span></div>
-            <div class="stat-pill">⏱️ TIME: <span class="stat-val" id="live-time">0.0s</span></div>
+        <div class="hud-stats">
+            <div class="hud-pill">
+                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h7v8l10-12h-7z"/></svg>
+                <span>SPEED:</span>
+                <span class="hud-val" id="wpm-display">0 WPM</span>
+            </div>
+            <div class="hud-pill">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
+                <span>ACC:</span>
+                <span class="hud-val" id="acc-display">100%</span>
+            </div>
+            <div class="hud-pill">
+                <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                <span>TIME:</span>
+                <span class="hud-val" id="time-display">0.0s</span>
+            </div>
         </div>
     </nav>
 
-    <div class="game-container">
-        <div class="race-track-card">
-            <div class="track-header">
-                <div class="track-title">🏎️ Speed Arena</div>
-                <div style="color: var(--text-muted); font-size: 0.85rem;">Type the passage below as fast as you can</div>
+    <div class="arena-container">
+        <div class="arena-card">
+            <div class="arena-header">
+                <div class="arena-title">
+                    <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                    VELOCITY TRACK ARENA
+                </div>
+                <div style="color: var(--text-dim); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace;">STATUS: READY FOR LAUNCH</div>
             </div>
 
-            <div class="lane">
-                <div class="car" id="user-car">🏎️</div>
-                <div class="finish-line"></div>
+            <div class="track-sector">
+                <div class="lane-wrapper">
+                    <div class="lane-label">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--neon-green)"><circle cx="12" cy="12" r="10"/></svg>
+                        YOU (PILOT)
+                    </div>
+                    <div class="lane">
+                        <svg class="racer-icon" id="user-racer" viewBox="0 0 100 40">
+                            <path d="M5 25 L25 10 L75 10 L95 25 L75 35 L25 35 Z" fill="url(#neon-grad)" stroke="var(--neon-green)" stroke-width="2"/>
+                            <circle cx="30" cy="35" r="5" fill="#FFF"/>
+                            <circle cx="70" cy="35" r="5" fill="#FFF"/>
+                            <defs>
+                                <linearGradient id="neon-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#00FFA3"/>
+                                    <stop offset="100%" stop-color="#00E5FF"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="finish-gate"></div>
+                    </div>
+                </div>
+
+                <div class="lane-wrapper">
+                    <div class="lane-label">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--neon-purple)"><circle cx="12" cy="12" r="10"/></svg>
+                        PHANTOM BOT
+                    </div>
+                    <div class="lane">
+                        <svg class="racer-icon racer-icon-bot" id="bot-racer" viewBox="0 0 100 40">
+                            <path d="M5 25 L25 10 L75 10 L95 25 L75 35 L25 35 Z" fill="url(#purple-grad)" stroke="var(--neon-purple)" stroke-width="2"/>
+                            <circle cx="30" cy="35" r="5" fill="#FFF"/>
+                            <circle cx="70" cy="35" r="5" fill="#FFF"/>
+                            <defs>
+                                <linearGradient id="purple-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#7928CA"/>
+                                    <stop offset="100%" stop-color="#FF0080"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="finish-gate"></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="lane">
-                <div class="car car-ai" id="ai-car">🚙</div>
-                <div class="finish-line"></div>
+            <div class="passage-box" id="passage-display">
+                Initializing cyber passage telemetry...
             </div>
 
-            <div class="text-display-box" id="text-display">
-                Loading race text...
-            </div>
+            <input type="text" class="input-cyber" id="input-field" placeholder="Type here to engage race..." autocomplete="off" spellcheck="false" onpaste="return false;">
 
-            <input type="text" class="input-box" id="typing-input" placeholder="Start typing here..." autocomplete="off" spellcheck="false" onpaste="return false;">
-
-            <div class="controls-bar">
-                <button class="btn btn-restart" id="btn-reset">🔄 New Race</button>
-                <button class="btn btn-auto" id="btn-autopilot">🤖 Toggle AI Auto-Pilot</button>
+            <div class="actions-bar">
+                <button class="btn-cyber btn-primary" id="btn-reload">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+                    RESTART RACE
+                </button>
+                <button class="btn-cyber btn-secondary" id="btn-autopilot">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                    AUTO-PILOT BOT
+                </button>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="results-modal">
-        <div class="results-card">
-            <div class="results-title">RACE COMPLETED!</div>
-            <div class="results-sub" id="winner-text">You placed 1st place!</div>
+    <div class="modal-blur" id="modal-screen">
+        <div class="modal-card">
+            <div class="modal-head">RACE FINISHED</div>
+            <div class="modal-sub" id="winner-status">VICTORY ACHIEVED</div>
 
             <div class="results-grid">
                 <div class="result-box">
-                    <div class="result-val" id="final-wpm">0</div>
-                    <div class="result-lbl">Final WPM</div>
+                    <div class="result-val" id="res-wpm">0</div>
+                    <div class="result-lbl">FINAL WPM</div>
                 </div>
                 <div class="result-box">
-                    <div class="result-val" id="final-acc">100%</div>
-                    <div class="result-lbl">Accuracy</div>
+                    <div class="result-val" id="res-acc">100%</div>
+                    <div class="result-lbl">ACCURACY</div>
                 </div>
                 <div class="result-box">
-                    <div class="result-val" id="final-time">0.0s</div>
-                    <div class="result-lbl">Race Time</div>
+                    <div class="result-val" id="res-time">0.0s</div>
+                    <div class="result-lbl">ELAPSED TIME</div>
                 </div>
                 <div class="result-box">
-                    <div class="result-val" id="final-errors">0</div>
-                    <div class="result-lbl">Mistakes</div>
+                    <div class="result-val" id="res-mistakes">0</div>
+                    <div class="result-lbl">ERRORS</div>
                 </div>
             </div>
 
-            <button class="btn btn-restart" style="width: 100%; justify-content: center;" id="modal-restart">Play Again</button>
+            <button class="btn-cyber btn-primary" style="width: 100%; justify-content: center;" id="btn-modal-restart">PLAY AGAIN</button>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 Phantom TypeRacer Engine. Protected Anti-Cheat Interface.
+        &copy; 2026 Phantom TypeRacer Cyber Engine. Encrypted Anti-Tamper Security Enabled.
     </footer>
 
     <script>
-        const PASSAGES = [
-            "The quick brown fox jumps over the lazy dog in record speed.",
-            "High frequency typing requires focus accuracy and rapid reflex execution.",
-            "Neural networks process image text recognition in sub millisecond latency.",
-            "Precision beats speed when mastering competitive touch typing challenges.",
-            "Automated algorithms dispatch events across high speed optical networks."
+        const CYBER_PASSAGES = [
+            "High frequency optical networks dispatch binary arrays across sub millisecond channels.",
+            "Cybernetic typing algorithms calculate velocity vectors with precision optical recognition.",
+            "Quantum processors execute automated instructions through encrypted neural memory streams.",
+            "Sustained focus and tactical keystroke execution unlock peak typing performance metrics.",
+            "Autonomous speed engines evaluate keystroke timing cycles for real time WPM calculations."
         ];
 
-        let currentPassage = "";
-        let currentIndex = 0;
-        let mistakes = 0;
-        let totalTyped = 0;
-        let startTime = null;
-        let timerInterval = null;
-        let aiInterval = null;
-        let aiProgress = 0;
-        let isGameFinished = false;
-        let autoPilotActive = false;
+        let activeText = "";
+        let cursorIndex = 0;
+        let errCount = 0;
+        let totalStrokes = 0;
+        let startTimestamp = null;
+        let timerLoop = null;
+        let botLoop = null;
+        let botProgress = 0;
+        let isFinished = false;
 
-        const textDisplay = document.getElementById('text-display');
-        const typingInput = document.getElementById('typing-input');
-        const userCar = document.getElementById('user-car');
-        const aiCar = document.getElementById('ai-car');
-        const liveWpm = document.getElementById('live-wpm');
-        const liveAcc = document.getElementById('live-acc');
-        const liveTime = document.getElementById('live-time');
-        const resultsModal = document.getElementById('results-modal');
+        const passageDisplay = document.getElementById('passage-display');
+        const inputField = document.getElementById('input-field');
+        const userRacer = document.getElementById('user-racer');
+        const botRacer = document.getElementById('bot-racer');
+        const wpmDisplay = document.getElementById('wpm-display');
+        const accDisplay = document.getElementById('acc-display');
+        const timeDisplay = document.getElementById('time-display');
+        const modalScreen = document.getElementById('modal-screen');
 
-        function initRace() {
-            clearInterval(timerInterval);
-            clearInterval(aiInterval);
-            currentPassage = PASSAGES[Math.floor(Math.random() * PASSAGES.length)];
-            currentIndex = 0;
-            mistakes = 0;
-            totalTyped = 0;
-            startTime = null;
-            aiProgress = 0;
-            isGameFinished = false;
-            autoPilotActive = false;
+        function startNewRace() {
+            clearInterval(timerLoop);
+            clearInterval(botLoop);
+            activeText = CYBER_PASSAGES[Math.floor(Math.random() * CYBER_PASSAGES.length)];
+            cursorIndex = 0;
+            errCount = 0;
+            totalStrokes = 0;
+            startTimestamp = null;
+            botProgress = 0;
+            isFinished = false;
 
-            typingInput.value = "";
-            typingInput.disabled = false;
-            typingInput.focus();
+            inputField.value = "";
+            inputField.disabled = false;
+            inputField.focus();
 
-            userCar.style.left = "10px";
-            aiCar.style.left = "10px";
+            userRacer.style.left = "10px";
+            botRacer.style.left = "10px";
 
-            liveWpm.innerText = "0";
-            liveAcc.innerText = "100%";
-            liveTime.innerText = "0.0s";
+            wpmDisplay.innerText = "0 WPM";
+            accDisplay.innerText = "100%";
+            timeDisplay.innerText = "0.0s";
 
-            resultsModal.classList.remove('active');
-            renderText();
+            modalScreen.classList.remove('active');
+            renderPassage();
         }
 
-        function renderText() {
-            let html = "";
-            for (let i = 0; i < currentPassage.length; i++) {
-                let char = currentPassage[i];
-                if (i < currentIndex) {
-                    html += `<span class="char-correct">${char}</span>`;
-                } else if (i === currentIndex) {
-                    html += `<span class="char-current">${char}</span>`;
+        function renderPassage() {
+            let buffer = "";
+            for (let i = 0; i < activeText.length; i++) {
+                let char = activeText[i];
+                if (i < cursorIndex) {
+                    buffer += `<span class="c-correct">${char}</span>`;
+                } else if (i === cursorIndex) {
+                    buffer += `<span class="c-current">${char}</span>`;
                 } else {
-                    html += `<span>${char}</span>`;
+                    buffer += `<span>${char}</span>`;
                 }
             }
-            textDisplay.innerHTML = html;
+            passageDisplay.innerHTML = buffer;
         }
 
-        function startTimers() {
-            startTime = Date.now();
-            timerInterval = setInterval(() => {
-                if (isGameFinished) return;
-                const elapsed = (Date.now() - startTime) / 1000;
-                liveTime.innerText = elapsed.toFixed(1) + "s";
+        function launchTimers() {
+            startTimestamp = Date.now();
+            timerLoop = setInterval(() => {
+                if (isFinished) return;
+                const elapsedSec = (Date.now() - startTimestamp) / 1000;
+                timeDisplay.innerText = elapsedSec.toFixed(1) + "s";
 
-                const words = (currentIndex / 5);
-                const wpm = elapsed > 0 ? Math.round((words / elapsed) * 60) : 0;
-                liveWpm.innerText = wpm;
+                const wordUnits = (cursorIndex / 5);
+                const calcWpm = elapsedSec > 0 ? Math.round((wordUnits / elapsedSec) * 60) : 0;
+                wpmDisplay.innerText = calcWpm + " WPM";
 
-                const acc = totalTyped > 0 ? Math.round(((totalTyped - mistakes) / totalTyped) * 100) : 100;
-                liveAcc.innerText = Math.max(0, acc) + "%";
+                const calcAcc = totalStrokes > 0 ? Math.round(((totalStrokes - errCount) / totalStrokes) * 100) : 100;
+                accDisplay.innerText = Math.max(0, calcAcc) + "%";
             }, 100);
 
-            aiInterval = setInterval(() => {
-                if (isGameFinished) return;
-                aiProgress += 1;
-                const maxTrackWidth = document.querySelector('.lane').clientWidth - 60;
-                const aiLeft = (aiProgress / currentPassage.length) * maxTrackWidth;
-                aiCar.style.left = Math.min(maxTrackWidth, 10 + aiLeft) + "px";
+            botLoop = setInterval(() => {
+                if (isFinished) return;
+                botProgress += 1;
+                const trackWidth = document.querySelector('.lane').clientWidth - 65;
+                const botPos = (botProgress / activeText.length) * trackWidth;
+                botRacer.style.left = Math.min(trackWidth, 10 + botPos) + "px";
 
-                if (aiProgress >= currentPassage.length && !isGameFinished) {
-                    finishRace(false);
+                if (botProgress >= activeText.length && !isFinished) {
+                    completeRace(false);
                 }
-            }, 180);
+            }, 175);
         }
 
-        typingInput.addEventListener('input', (e) => {
-            if (isGameFinished) return;
+        inputField.addEventListener('input', () => {
+            if (isFinished) return;
+            if (!startTimestamp) launchTimers();
 
-            if (!startTime) {
-                startTimers();
-            }
+            const inputVal = inputField.value;
+            const targetChar = activeText[cursorIndex];
+            const typedChar = inputVal[inputVal.length - 1];
 
-            const typedVal = typingInput.value;
-            const expectedChar = currentPassage[currentIndex];
-            const typedChar = typedVal[typedVal.length - 1];
+            totalStrokes++;
 
-            totalTyped++;
+            if (typedChar === targetChar) {
+                cursorIndex++;
+                inputField.value = "";
 
-            if (typedChar === expectedChar) {
-                currentIndex++;
-                typingInput.value = "";
-                
-                const maxTrackWidth = document.querySelector('.lane').clientWidth - 60;
-                const userLeft = (currentIndex / currentPassage.length) * maxTrackWidth;
-                userCar.style.left = Math.min(maxTrackWidth, 10 + userLeft) + "px";
+                const trackWidth = document.querySelector('.lane').clientWidth - 65;
+                const userPos = (cursorIndex / activeText.length) * trackWidth;
+                userRacer.style.left = Math.min(trackWidth, 10 + userPos) + "px";
 
-                if (currentIndex >= currentPassage.length) {
-                    finishRace(true);
+                if (cursorIndex >= activeText.length) {
+                    completeRace(true);
                 }
             } else {
-                mistakes++;
-                typingInput.value = "";
+                errCount++;
+                inputField.value = "";
             }
 
-            renderText();
+            renderPassage();
         });
 
-        function finishRace(userWon) {
-            isGameFinished = true;
-            clearInterval(timerInterval);
-            clearInterval(aiInterval);
-            typingInput.disabled = true;
+        function completeRace(isUserVictor) {
+            isFinished = true;
+            clearInterval(timerLoop);
+            clearInterval(botLoop);
+            inputField.disabled = true;
 
-            const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-            const wpm = Math.round(((currentPassage.length / 5) / (elapsed / 60)));
-            const acc = Math.max(0, Math.round(((totalTyped - mistakes) / totalTyped) * 100));
+            const totalTime = ((Date.now() - startTimestamp) / 1000).toFixed(2);
+            const finalWpm = Math.round(((activeText.length / 5) / (totalTime / 60)));
+            const finalAcc = Math.max(0, Math.round(((totalStrokes - errCount) / totalStrokes) * 100));
 
-            document.getElementById('winner-text').innerText = userWon ? "🏆 You Won First Place!" : "🥈 AI Bot Took First Place!";
-            document.getElementById('final-wpm').innerText = wpm;
-            document.getElementById('final-acc').innerText = acc + "%";
-            document.getElementById('final-time').innerText = elapsed + "s";
-            document.getElementById('final-errors').innerText = mistakes;
+            document.getElementById('winner-status').innerText = isUserVictor ? "VICTORY: YOU DEFEATED PHANTOM BOT!" : "DEFEAT: PHANTOM BOT PLACED FIRST";
+            document.getElementById('res-wpm').innerText = finalWpm;
+            document.getElementById('res-acc').innerText = finalAcc + "%";
+            document.getElementById('res-time').innerText = totalTime + "s";
+            document.getElementById('res-mistakes').innerText = errCount;
 
-            resultsModal.classList.add('active');
+            modalScreen.classList.add('active');
         }
 
         document.getElementById('btn-autopilot').addEventListener('click', () => {
-            if (isGameFinished) return;
-            if (!startTime) startTimers();
-            
-            autoPilotActive = true;
-            const autoTimer = setInterval(() => {
-                if (currentIndex >= currentPassage.length || isGameFinished) {
-                    clearInterval(autoTimer);
+            if (isFinished) return;
+            if (!startTimestamp) launchTimers();
+
+            const autoRunner = setInterval(() => {
+                if (cursorIndex >= activeText.length || isFinished) {
+                    clearInterval(autoRunner);
                     return;
                 }
-                typingInput.value = currentPassage[currentIndex];
-                typingInput.dispatchEvent(new Event('input'));
-            }, 45);
+                inputField.value = activeText[cursorIndex];
+                inputField.dispatchEvent(new Event('input'));
+            }, 40);
         });
 
-        document.getElementById('btn-reset').addEventListener('click', initRace);
-        document.getElementById('modal-restart').addEventListener('click', initRace);
+        document.getElementById('btn-reload').addEventListener('click', startNewRace);
+        document.getElementById('btn-modal-restart').addEventListener('click', startNewRace);
 
-        window.onload = initRace;
+        window.onload = startNewRace;
 
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
