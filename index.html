@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phantom OCR Solver | Next-Gen Image Recognition</title>
+    <title>Phantom Racer | Ultra-Fast TypeRacer OCR Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #080810;
-            --card-bg: rgba(18, 18, 32, 0.65);
+            --bg-dark: #06070B;
+            --card-bg: rgba(15, 17, 26, 0.75);
             --border-color: rgba(255, 255, 255, 0.08);
-            --primary-glow: #7928CA;
-            --secondary-glow: #FF0080;
-            --accent-cyan: #00DFD8;
+            --neon-green: #00FF87;
+            --neon-blue: #60EFFF;
+            --neon-purple: #7928CA;
             --text-main: #F3F4F6;
             --text-muted: #9CA3AF;
         }
@@ -38,11 +38,11 @@
 
         .bg-glow {
             position: fixed;
-            width: 600px;
-            height: 600px;
+            width: 650px;
+            height: 650px;
             border-radius: 50%;
-            filter: blur(140px);
-            opacity: 0.35;
+            filter: blur(150px);
+            opacity: 0.3;
             pointer-events: none;
             z-index: 0;
         }
@@ -50,13 +50,13 @@
         .glow-1 {
             top: -150px;
             left: -100px;
-            background: radial-gradient(circle, var(--primary-glow), transparent);
+            background: radial-gradient(circle, var(--neon-green), transparent);
         }
 
         .glow-2 {
             bottom: -150px;
             right: -100px;
-            background: radial-gradient(circle, var(--secondary-glow), transparent);
+            background: radial-gradient(circle, var(--neon-purple), transparent);
         }
 
         .navbar {
@@ -65,7 +65,7 @@
             align-items: center;
             padding: 1.5rem 4rem;
             backdrop-filter: blur(16px);
-            background: rgba(8, 8, 16, 0.7);
+            background: rgba(6, 7, 11, 0.8);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
@@ -76,20 +76,22 @@
             font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #FFF 30%, var(--accent-cyan));
+            background: linear-gradient(135deg, #FFF 20%, var(--neon-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .logo-dot {
-            width: 10px;
-            height: 10px;
-            background-color: var(--accent-cyan);
-            border-radius: 50%;
-            box-shadow: 0 0 12px var(--accent-cyan);
+        .logo-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: rgba(0, 255, 135, 0.15);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            font-weight: 700;
         }
 
         .nav-links {
@@ -108,34 +110,21 @@
 
         .nav-links a:hover {
             color: #FFF;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+            text-shadow: 0 0 10px var(--neon-green);
         }
 
-        .status-badge {
+        .wpm-pill {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 14px;
-            background: rgba(0, 223, 216, 0.08);
-            border: 1px solid rgba(0, 223, 216, 0.3);
+            padding: 8px 18px;
+            background: rgba(0, 255, 135, 0.08);
+            border: 1px solid rgba(0, 255, 135, 0.3);
             border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--accent-cyan);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-cyan);
-            border-radius: 50%;
-            animation: pulse 1.8s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 223, 216, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(0, 223, 216, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 223, 216, 0); }
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--neon-green);
         }
 
         .hero {
@@ -144,37 +133,37 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 7rem 2rem 5rem;
+            padding: 6rem 2rem 4rem;
             position: relative;
             z-index: 1;
         }
 
-        .hero-tag {
-            padding: 6px 18px;
+        .speed-tag {
+            padding: 6px 20px;
             border-radius: 30px;
-            background: linear-gradient(90deg, rgba(121, 40, 202, 0.2), rgba(255, 0, 128, 0.2));
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(90deg, rgba(0, 255, 135, 0.15), rgba(96, 239, 255, 0.15));
+            border: 1px solid rgba(0, 255, 135, 0.3);
             font-size: 0.85rem;
-            font-weight: 600;
-            color: #E5E7EB;
+            font-weight: 700;
+            color: var(--neon-green);
             margin-bottom: 1.5rem;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .hero-title {
-            font-size: 4rem;
+            font-size: 4.2rem;
             font-weight: 800;
             line-height: 1.1;
-            max-width: 850px;
+            max-width: 900px;
             margin-bottom: 1.5rem;
-            background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
+            background: linear-gradient(180deg, #FFFFFF 0%, #9CA3AF 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero-title span {
-            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow), var(--accent-cyan));
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -182,9 +171,38 @@
         .hero-desc {
             font-size: 1.15rem;
             color: var(--text-muted);
-            max-width: 620px;
+            max-width: 650px;
             margin-bottom: 3rem;
             line-height: 1.6;
+        }
+
+        .metrics-banner {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            padding: 1.5rem 3rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-item {
+            text-align: center;
+        }
+
+        .metric-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #FFF;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-group {
@@ -193,39 +211,21 @@
         }
 
         .btn-primary {
-            padding: 14px 32px;
+            padding: 16px 36px;
             border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
-            color: #FFF;
-            font-weight: 700;
+            background: linear-gradient(135deg, var(--neon-green), #00B862);
+            color: #06070B;
+            font-weight: 800;
             text-decoration: none;
-            box-shadow: 0 8px 30px rgba(121, 40, 202, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 255, 135, 0.35);
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(255, 0, 128, 0.5);
-        }
-
-        .btn-secondary {
-            padding: 14px 32px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-weight: 600;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 12px 40px rgba(0, 255, 135, 0.5);
         }
 
         .features-grid {
@@ -246,26 +246,24 @@
             padding: 2.5rem;
             backdrop-filter: blur(12px);
             transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .card:hover {
-            border-color: rgba(121, 40, 202, 0.4);
+            border-color: rgba(0, 255, 135, 0.4);
             transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
 
         .card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            background: rgba(121, 40, 202, 0.15);
-            border: 1px solid rgba(121, 40, 202, 0.3);
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: rgba(0, 255, 135, 0.1);
+            border: 1px solid rgba(0, 255, 135, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 1.5rem;
         }
 
@@ -281,65 +279,50 @@
             line-height: 1.6;
         }
 
-        .code-container {
+        .demo-container {
             max-width: 900px;
-            margin: 4rem auto 6rem;
+            margin: 3rem auto 6rem;
             padding: 0 2rem;
             position: relative;
             z-index: 1;
         }
 
-        .code-block {
-            background: #0B0B14;
+        .type-box {
+            background: #090B12;
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border-radius: 18px;
+            padding: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
 
-        .code-header {
+        .type-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
             border-bottom: 1px solid var(--border-color);
-        }
-
-        .window-dots {
-            display: flex;
-            gap: 8px;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .dot-red { background-color: #FF5F56; }
-        .dot-yellow { background-color: #FFBD2E; }
-        .dot-green { background-color: #27C93F; }
-
-        .code-title {
-            font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
             color: var(--text-muted);
         }
 
-        pre {
-            padding: 2rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            color: #A9B7C6;
-            overflow-x: auto;
-            line-height: 1.7;
+        .typed-text {
+            color: var(--neon-green);
         }
 
-        .keyword { color: #CC7832; font-weight: bold; }
-        .string { color: #6A8759; }
-        .function { color: #FFC66D; }
-        .number { color: #6897BB; }
+        .cursor {
+            display: inline-block;
+            width: 9px;
+            height: 1.2em;
+            background-color: var(--neon-green);
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
 
         footer {
             text-align: center;
@@ -347,8 +330,6 @@
             border-top: 1px solid var(--border-color);
             color: var(--text-muted);
             font-size: 0.9rem;
-            position: relative;
-            z-index: 1;
         }
     </style>
 </head>
@@ -359,73 +340,76 @@
 
     <nav class="navbar">
         <div class="logo">
-            <div class="logo-dot"></div>
-            PHANTOM OCR
+            <div class="logo-badge">PRO</div>
+            PHANTOM TYPERACER
         </div>
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
-            <li><a href="#architecture">Architecture</a></li>
-            <li><a href="#speed">Benchmark</a></li>
+            <li><a href="#demo">Live Engine</a></li>
+            <li><a href="#stats">Performance</a></li>
         </ul>
-        <div class="status-badge">
-            <div class="status-dot"></div>
-            API Operational
+        <div class="wpm-pill">
+            ⚡ 350+ WPM SOLVER
         </div>
     </nav>
 
     <section class="hero">
-        <div class="hero-tag">High Precision Neural solver</div>
-        <h1 class="hero-title">Ultra-Fast Image Recognition <span>Discord Engine</span></h1>
-        <p class="hero-desc">Seamlessly process, solve, and analyze embedded image streams in real-time with sub-millisecond response latency and high recognition accuracy.</p>
+        <div class="speed-tag">🏁 Unbeatable TypeRacer Bot Engine</div>
+        <h1 class="hero-title">Dominate Discord <span>TypeRacer Games</span> Instantly</h1>
+        <p class="hero-desc">Powered by high-frequency OCR neural vision. Instant text recognition from embed images with sub-millisecond response rates.</p>
+        
+        <div class="metrics-banner">
+            <div class="metric-item">
+                <div class="metric-val" style="color: var(--neon-green);">0.08s</div>
+                <div class="metric-label">Avg Speed</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val" style="color: var(--neon-blue);">99.9%</div>
+                <div class="metric-label">OCR Accuracy</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val" style="color: #FFF;">350+</div>
+                <div class="metric-label">Simulated WPM</div>
+            </div>
+        </div>
+
         <div class="btn-group">
-            <button class="btn-primary">Get Access</button>
-            <button class="btn-secondary">View Documentation</button>
+            <button class="btn-primary">Launch Typeracer Cog</button>
         </div>
     </section>
 
     <section class="features-grid" id="features">
         <div class="card">
-            <div class="card-icon">⚡</div>
-            <h3 class="card-title">Real-Time Async OCR</h3>
-            <p class="card-desc">Powered by modern aiohttp async dispatching, ensuring your bot never freezes or blocks the gateway event loop.</p>
+            <div class="card-icon">🏎️</div>
+            <h3 class="card-title">Instant OCR Capture</h3>
+            <p class="card-desc">Automatically reads image embeds sent by TypeRacer Discord bots and converts pixelated text into raw strings instantly.</p>
         </div>
         <div class="card">
-            <div class="card-icon">🎯</div>
-            <h3 class="card-title">High Accuracy Neural Network</h3>
-            <p class="card-desc">Advanced optical character recognition optimized specifically for complex embedded text formats and image challenges.</p>
+            <div class="card-icon">⚡</div>
+            <h3 class="card-title">Async Event Dispatch</h3>
+            <p class="card-desc">Built with modern Python aiohttp async worker queues to ensure non-blocking, zero-lag message replies.</p>
         </div>
         <div class="card">
             <div class="card-icon">🛡️</div>
-            <h3 class="card-title">Modular Cog Architecture</h3>
-            <p class="card-desc">Built with discord.py v2.0 standards, modularized clean code design, ready to load dynamically into any bot instance.</p>
+            <h3 class="card-title">Stealth Mode Ready</h3>
+            <p class="card-desc">Features customizable response delay simulation so your bot's typing speed appears completely natural.</p>
         </div>
     </section>
 
-    <div class="code-container" id="architecture">
-        <div class="code-block">
-            <div class="code-header">
-                <div class="window-dots">
-                    <div class="dot dot-red"></div>
-                    <div class="dot dot-yellow"></div>
-                    <div class="dot dot-green"></div>
-                </div>
-                <div class="code-title">ocr_cog.py</div>
+    <div class="demo-container" id="demo">
+        <div class="type-box">
+            <div class="type-header">
+                <span>EVENT: TypeRacer Match Detected</span>
+                <span style="color: var(--neon-green);">STATUS: SOLVED (0.042s)</span>
             </div>
-            <pre><code><span class="keyword">import</span> time
-<span class="keyword">import</span> aiohttp
-<span class="keyword">import</span> discord
-<span class="keyword">from</span> discord.ext <span class="keyword">import</span> commands
-
-<span class="keyword">class</span> <span class="function">OcrSolver</span>(commands.Cog):
-    <span class="keyword">def</span> <span class="function">__init__</span>(self, bot):
-        self.bot = bot
-        self.api_url = <span class="string">'https://Ocr-api.phantomxnovaxd.repl.co/api/v1/solver'</span>
-        self.target_author_id = <span class="number">825617171589759006</span></code></pre>
+            <div>
+                <span class="typed-text">The quick brown fox jumps over the lazy dog in record speed.</span><span class="cursor"></span>
+            </div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 Phantom OCR Network. All rights reserved. Encrypted & Protected Interface.
+        &copy; 2026 Phantom TypeRacer Solver Engine. Encrypted & Protected Interface.
     </footer>
 
     <script>
